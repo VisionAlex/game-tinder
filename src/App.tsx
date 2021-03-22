@@ -1,20 +1,10 @@
-import { Container, Paper } from "@material-ui/core";
-import { useEffect, useState } from "react";
 import { Header } from "./componets/Header";
 import "./App.css";
-import data from "./db.json";
-import { Spinner } from "./componets/Spinner";
 
-interface Game {
-  id: number;
-  cover: {
-    id: number;
-    image_id: string;
-  };
-  name: string;
-  slug: string;
-  summary: string;
-}
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Home } from "./componets/pages/Home";
+import { RankMe } from "./componets/pages/RankMe";
+import { TopTen } from "./componets/pages/TopTen";
 
 // const fetchData = () => {
 //   return fetch("http://localhost:3001/games")
@@ -24,8 +14,8 @@ interface Game {
 // };
 
 function App() {
-  const size = "720p";
-  const [games, setGames] = useState<Game[]>([]);
+  // const size = "720p";
+  // const [games, setGames] = useState<Game[]>([]);
   // useEffect(() => {
   // fetchData().then((data) => {
   //   console.log(data);
@@ -33,10 +23,22 @@ function App() {
   // });
   // }, []);
   return (
-    <>
+    <Router>
       <Header />
       <div className="container">
-        {games && games.length > 0 ? (
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/rank-me" component={RankMe} />
+          <Route path="/top-ten" component={TopTen} />
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+/* {games && games.length > 0 ? (
           <Paper
             className="card"
             style={{
@@ -45,10 +47,4 @@ function App() {
           ></Paper>
         ) : (
           <Spinner />
-        )}
-      </div>
-    </>
-  );
-}
-
-export default App;
+        )} */

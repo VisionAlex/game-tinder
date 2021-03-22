@@ -1,35 +1,43 @@
 .logo {
   height: fit-content;
-  width: 13vw;
-  padding: 0;
-  margin: 0;
+  width: 80px;
 }
 
 .header {
-  margin-bottom: 1.2vh;
-}
-
-.menuItem {
-  font-size: calc(12px + 1.2vh);
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 15px;
 }
 
 .container {
-  height: 100vh;
+  height: 80vh;
   width: 100vw;
   /* border: 1px solid black; */
 }
 .card {
-  margin-left: auto;
-  margin-right: auto;
+  position: relative;
   /* border: 1px solid black; */
   position: relative;
-  width: 90vw;
+  width: 96vw;
   /* padding: 20px; */
   max-width: 720px;
-  height: 87vh;
+  height: 83vh;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
+}
+
+.swipe {
+  position: absolute;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .tools {
@@ -40,10 +48,17 @@
 
 .spinner {
   position: fixed;
-  left: 35%;
+  left: 50%;
   top: 50%;
-  width: 35%;
+  height: fit-content;
+  margin-top: -127px;
+  margin-left: -175px;
+  width: 350px;
   /* border: 1px solid black; */
+}
+
+.topContainer {
+  color: aliceblue;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -57,18 +72,18 @@
 
 @keyframes logo-spin {
   0% {
-    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   25% {
-    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
   }
   50% {
-    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   75% {
-    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
   }
   100% {
-    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 }
