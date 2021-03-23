@@ -11,7 +11,7 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.use(function (req, res, next) {
-  setTimeout(next, 100);
+  setTimeout(next, 0);
 });
 
 server.use(router);

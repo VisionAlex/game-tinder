@@ -2,34 +2,24 @@ import { Header } from "./componets/Header";
 import "./App.css";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Home } from "./componets/pages/Home";
-import { RankMe } from "./componets/pages/RankMe";
-import { TopTen } from "./componets/pages/TopTen";
-
-// const fetchData = () => {
-//   return fetch("http://localhost:3001/games")
-//     .then((response) => response.json())
-//     .then((response) => response)
-//     .catch((err) => console.log(err));
-// };
+import { RankMe } from "./pages/RankMe";
+import { TopTen } from "./pages/TopTen";
+import { GamesContext } from "./GamesContext";
+import { useMemo, useState } from "react";
 
 function App() {
-  // const size = "720p";
-  // const [games, setGames] = useState<Game[]>([]);
-  // useEffect(() => {
-  // fetchData().then((data) => {
-  //   console.log(data);
-  // setGames(data.games);
-  // });
-  // }, []);
+  const [games, setGames] = useState<Game[]>([]);
+  const gamesProvider = useMemo(() => ({ games, setGames }), [games, setGames]);
   return (
     <Router>
       <Header />
       <div className="container">
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/rank-me" component={RankMe} />
-          <Route path="/top-ten" component={TopTen} />
+          <GamesContext.Provider value={gamesProvider}>
+            <Route path="/" exact component={RankMe} />
+            <Route path="/rank-me" component={RankMe} />
+            <Route path="/top-ten" component={TopTen} />
+          </GamesContext.Provider>
         </Switch>
       </div>
     </Router>

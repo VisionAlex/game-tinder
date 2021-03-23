@@ -8,22 +8,12 @@ import {
   IconButton,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { blue, pink } from "@material-ui/core/colors";
+import { blue } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
 
-interface Game {
-  id: number;
-  cover: {
-    id: number;
-    image_id: string;
-  };
-  name: string;
-  slug: string;
-  summary: string;
-}
 interface GameCardProps {
   game: Game;
   idx: number;
@@ -34,8 +24,13 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
     margin: "auto",
     marginBottom: theme.spacing(1),
-    color: "white",
-    maxWidth: 345,
+    color: "aliceblue",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: 345,
+    },
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: 545,
+    },
     backgroundColor: "#282c34",
   },
   header: {
@@ -66,18 +61,22 @@ const useStyles = makeStyles((theme) => ({
   content: {
     paddingTop: 0,
     paddingLeft: 0,
+    paddingRight: 0,
     display: "flex",
     alignItems: "center",
   },
   summary: {
     display: "block",
   },
+  description: {
+    cursor: "pointer",
+  },
 }));
 
 export const GameCard: React.FC<GameCardProps> = ({ game, idx }) => {
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
-  const size = "cover_big";
+  const size = "screenshot_med";
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -101,21 +100,26 @@ export const GameCard: React.FC<GameCardProps> = ({ game, idx }) => {
       <CardMedia
         className={classes.media}
         image={`https://images.igdb.com/igdb/image/upload/t_${size}/${game.cover.image_id}.jpg`}
-        title="Live from space album cover"
+        title={`Score:${game.score}`}
       />
       <CardContent className={classes.content}>
-        <Typography variant="body1">Description</Typography>
-        <IconButton
-          color="inherit"
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
+        <Typography
           onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
+          variant="body1"
+          className={classes.description}
         >
-          <ExpandMoreIcon />
-        </IconButton>
+          Description
+          <IconButton
+            color="inherit"
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </Typography>
       </CardContent>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Typography className={classes.summary} variant="body2">
