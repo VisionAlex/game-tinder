@@ -3,10 +3,9 @@ import { SwipeGameCards } from "../componets/SwipeGameCards";
 
 export const RankMe: React.FC = () => {
   useEffect(() => {
-    const body = document.querySelector("body");
-    if (body) body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
     return () => {
-      if (body) body.style.overflowY = "scroll";
+      document.body.style.overflowY = "scroll";
     };
   });
   return <SwipeGameCards />;

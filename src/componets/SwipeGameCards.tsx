@@ -1,10 +1,4 @@
-import {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useState } from "react";
 import TinderCard from "react-tinder-card";
 import { Spinner } from "./Spinner";
 import shuffle from "../utils/shuffle";
@@ -16,11 +10,11 @@ export const SwipeGameCards: React.FC = () => {
   const baseUrl = "http://134.122.83.96/";
   const size = "720p";
   const { games, setGames } = useContext(GamesContext);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [position, setPosition] = useState("up");
   const [showMessage, setShowMessage] = useState(false);
 
-  const msgRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     async function init() {
       try {
@@ -31,18 +25,12 @@ export const SwipeGameCards: React.FC = () => {
         }
       } catch (e) {
         setError(e);
+      } finally {
+        setLoading(false);
       }
     }
     init();
   }, [baseUrl, setGames]);
-
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      if (msgRef.current !== null) {
-        msgRef.current.style.display = "flex";
-      }
-    }, 600);
-  }, []);
 
   const swiped = (direction: string, game: Game) => {
     let score = 0;
@@ -76,11 +64,11 @@ export const SwipeGameCards: React.FC = () => {
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };
+  if (loading) return <Spinner />;
   if (error) throw error;
   return (
     <>
-      <Spinner />
-      <div ref={msgRef} className="cardContainer" style={{ display: "none" }}>
+      <div className="cardContainer">
         {games.length &&
           games.map((game: Game) => (
             <div className="swipe" key={game.id}>
@@ -99,7 +87,7 @@ export const SwipeGameCards: React.FC = () => {
           ))}
         <CSSTransition
           in={showMessage}
-          timeout={600}
+          timeout={700}
           classNames="msg"
           unmountOnExit
           onEnter={() => setShowMessage(false)}

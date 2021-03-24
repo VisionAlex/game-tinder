@@ -1,53 +1,13 @@
-import { Button, IconButton, makeStyles } from "@material-ui/core";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { Button, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 
-const useStyles = makeStyles((theme) => ({
-  nav: {
-    width: "100%",
-    height: "80px",
-    display: "flex",
-    boxSizing: "border-box",
-    justifyContent: "space-between",
-    alignItems: "center",
-    margingTop: 0,
-    background: "linear-gradient(to left, #0f2027, #203a43, #2c5364)",
-    position: "fixed",
-    zIndex: 999,
-    top: 0,
-    left: 0,
-  },
-
-  logo: {
-    height: "fit-content",
-    width: "60px",
-    padding: 0,
-    margin: 0,
-  },
-}));
-
 export const Header: React.FC = () => {
-  const classes = useStyles();
-  const [scrolled, setScrolled] = useState(false);
-  const handleScroll = () => {
-    const offset = window.scrollY;
-    if (offset > 1) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    console.log(scrolled);
-  });
   return (
     <header>
-      <nav className={clsx(classes.nav)}>
+      <nav className="nav">
         <IconButton component={Link} to="/" color="inherit">
-          <img src={logo} alt="logo" className={classes.logo} />
+          <img src={logo} alt="logo" className="logo" />
         </IconButton>
         <Button
           variant="outlined"
