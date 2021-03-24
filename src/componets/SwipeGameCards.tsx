@@ -70,8 +70,8 @@ export const SwipeGameCards: React.FC = () => {
     <>
       <div className="cardContainer">
         {games.length &&
-          games.map((game: Game) => (
-            <div className="swipe" key={game.id}>
+          games.map((game: Game, idx: number) => (
+            <div className="swipe" style={{ zIndex: 1000 - idx }} key={game.id}>
               <TinderCard
                 preventSwipe={["up"]}
                 onSwipe={(dir) => swiped(dir, game)}
