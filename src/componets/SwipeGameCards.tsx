@@ -1,16 +1,26 @@
-import { useContext, useEffect, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import TinderCard from "react-tinder-card";
 import { Spinner } from "./Spinner";
 import shuffle from "../utils/shuffle";
 import { GamesContext } from "../GamesContext";
+import { FlashMessage } from "./FlashMessage";
+import { CSSTransition } from "react-transition-group";
 
 export const SwipeGameCards: React.FC = () => {
   const baseUrl = "http://134.122.83.96/";
   const size = "720p";
   const { games, setGames } = useContext(GamesContext);
   const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [position, setPosition] = useState("up");
+  const [showMessage, setShowMessage] = useState(false);
 
+  const msgRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     async function init() {
       try {
@@ -21,26 +31,34 @@ export const SwipeGameCards: React.FC = () => {
         }
       } catch (e) {
         setError(e);
-      } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
       }
     }
     init();
   }, [baseUrl, setGames]);
 
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      if (msgRef.current !== null) {
+        msgRef.current.style.display = "flex";
+      }
+    }, 600);
+  }, []);
+
   const swiped = (direction: string, game: Game) => {
     let score = 0;
     if (direction === "left") {
       score = game.score - 1;
+      setPosition("down");
     }
     if (direction === "down") {
       score = game.score;
+      setPosition("discard");
     }
     if (direction === "right") {
       score = game.score + 1;
+      setPosition("up");
     }
+    setShowMessage(true);
     const game_obj = { ...game, score };
     fetch(baseUrl + "games/" + game_obj.id, {
       method: "PUT",
@@ -58,23 +76,17 @@ export const SwipeGameCards: React.FC = () => {
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };
-
-  // const onCardLeftScreen = (myIdentifier: any) => {
-  //   console.log(myIdentifier + " left the screen");
-  // };
-  // if (loading) return <Spinner />;
   if (error) throw error;
   return (
     <>
-      {loading && <Spinner />}
-      <div className="cardContainer">
+      <Spinner />
+      <div ref={msgRef} className="cardContainer" style={{ display: "none" }}>
         {games.length &&
           games.map((game: Game) => (
             <div className="swipe" key={game.id}>
               <TinderCard
                 preventSwipe={["up"]}
                 onSwipe={(dir) => swiped(dir, game)}
-                flickOnSwipe
               >
                 <div
                   style={{
@@ -85,6 +97,15 @@ export const SwipeGameCards: React.FC = () => {
               </TinderCard>
             </div>
           ))}
+        <CSSTransition
+          in={showMessage}
+          timeout={600}
+          classNames="msg"
+          unmountOnExit
+          onEnter={() => setShowMessage(false)}
+        >
+          <FlashMessage position={position} />
+        </CSSTransition>
       </div>
     </>
   );

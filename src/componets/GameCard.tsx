@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { blue } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
+import { ThumbDown, ThumbUpOutlined } from "@material-ui/icons";
 
 interface GameCardProps {
   game: Game;
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       maxWidth: 545,
     },
-    backgroundColor: "#282c34",
+    backgroundColor: "rgba(255,0,0,0)",
   },
   header: {
     marginLeft: 0,
@@ -59,10 +60,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: blue[500],
   },
   content: {
+    zIndex: 0,
     paddingTop: 0,
     paddingLeft: 0,
     paddingRight: 0,
     display: "flex",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   summary: {
@@ -70,6 +73,10 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     cursor: "pointer",
+  },
+  score: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -120,6 +127,23 @@ export const GameCard: React.FC<GameCardProps> = ({ game, idx }) => {
             <ExpandMoreIcon />
           </IconButton>
         </Typography>
+        {game.score >= 0 ? (
+          <div className={classes.score}>
+            <Typography
+              variant="body2"
+              style={{
+                fontWeight: 500,
+                paddingRight: 3,
+                marginTop: 0,
+              }}
+            >
+              {game.score}
+            </Typography>
+            <ThumbUpOutlined style={{ height: "0.9em", marginBottom: 6 }} />
+          </div>
+        ) : (
+          <ThumbDown />
+        )}
       </CardContent>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Typography className={classes.summary} variant="body2">

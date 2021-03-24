@@ -5,14 +5,30 @@
 }
 .card {
   position: relative;
-  /* border: 1px solid black; */
-  position: relative;
   width: 96vw;
   max-width: 720px;
-  height: 86vh;
+  height: 80vh;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
+}
+
+.message-card {
+  position: absolute;
+  width: 96vw;
+  max-width: 720px;
+  height: 80vh;
+  border-radius: 20px;
+  text-align: center;
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.message {
+  color: aliceblue;
+  display: flex;
+  font-size: 8em;
 }
 
 .swipe {
@@ -20,12 +36,13 @@
 }
 
 .cardContainer {
+  padding-top: 80px;
   display: flex;
   justify-content: center;
 }
 
 .cardContainer:first-child {
-  z-index: 100;
+  z-index: 800;
 }
 
 .spinner {
@@ -36,7 +53,6 @@
   margin-top: -91px;
   margin-left: -125px;
   width: 250px;
-  /* border: 1px solid black; */
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -70,4 +86,12 @@
   100% {
     transform: rotate(0deg);
   }
+}
+
+.msg-exit {
+  opacity: 1;
+}
+.msg-exit-active {
+  opacity: 0.7;
+  transition: opacity 700ms;
 }
