@@ -8,4 +8,3 @@ Storefront:
 - Top 10 - shows the list of top 10 games
   Ranking algorithm: thumbs-down means -1, thumbs up +1, skip is 0.
 
-We will not have a backend, so it's ok to fake backend API calls with hardcoded values.
